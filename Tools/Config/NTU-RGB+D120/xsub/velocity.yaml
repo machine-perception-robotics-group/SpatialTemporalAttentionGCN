@@ -1,0 +1,59 @@
+log_dir: Log/NTU-RGB+D120/xsub/velocity
+
+start_epoch: 1
+end_epoch: 150
+dataset: 'ntu120'
+cudnn_benchmark: True
+device: [0,1]
+
+# model
+model_args:
+  model_name: 'STA_GCN'
+  num_class: 120
+  in_channels: 6
+  residual: True
+  dropout: 0.5
+  num_person: 2
+  t_kernel_size: 9
+  layout: 'ntu-rgb+d'
+  strategy: 'spatial'
+  hop_size: 3
+  num_att_A: 4
+  load_weight: False
+
+# optimizer
+optimizer_args:
+  optimizer: SGD
+  base_lr: 0.1
+  lr_step: [50, 80, 120]
+
+# feeder
+feeder_args:
+  frame_size: 300
+  batch_size: 64
+  num_worker: 0
+  train_feeder_args:
+    data_path: ./Data/NTU-RGB+D120/xsub/train_velocity.npy
+    label_path: ./Data/NTU-RGB+D120/xsub/train_label.pkl
+    normalization: False
+    random_shift: False
+    valid_choose: False
+    frame_thinning: False
+    random_choose: False
+    repeat_padding: True
+    random_move: True
+    add_noise: False
+    frame_normalization: False
+  test_feeder_args:
+    data_path: ./Data/NTU-RGB+D120/xsub/test_velocity.npy
+    label_path: ./Data/NTU-RGB+D120/xsub/test_label.pkl
+    normalization: False
+    random_shift: False
+    valid_choose: False
+    frame_thinning: False
+    random_choose: False
+    repeat_padding: True
+    random_move: True
+    add_noise: False
+    frame_normalization: False
+
