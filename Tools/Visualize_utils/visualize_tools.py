@@ -4,7 +4,6 @@ from tqdm import tqdm
 import matplotlib.pyplot as plt
 import torch
 
-
 from . import visualize_config as visualize_config
 from . import visualize_graph as visualize_graph
 

@@ -44,10 +44,10 @@ for i in tqdm(range(len(label[0]))):
     _, l = label[:, i]
     _, s11 = s1[i]
     _, s22 = s2[i]
-    s = S11 + s22
+    s = s11 + s22
     if args.score3 is not None:
         _, s33 = s3[i]
-        s += s3
+        s += s33
     rank_5 = s.argsort()[-5:]
     right_num_5 += int(int(l) in rank_5)
     s = np.argmax(s)

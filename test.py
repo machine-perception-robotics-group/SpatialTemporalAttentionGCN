@@ -11,7 +11,7 @@ from collections import OrderedDict
 import torch
 from Tools.Model.sta_gcn import STA_GCN as STA_GCN
 from Tools.Feeder.feeder import Feeder as Feeder
-import Tools.Visualize.visualize_tools as visualize_tools
+import Tools.Visualize_utils.visualize_tools as visualize_tools
 
 
 parser = argparse.ArgumentParser(description='Main config')
