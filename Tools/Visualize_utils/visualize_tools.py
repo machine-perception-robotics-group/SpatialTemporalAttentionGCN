@@ -37,7 +37,7 @@ def visualizing(att_node,
             os.makedirs(dir)
             np.save(dir + '/att_node.npy', att_node[i].cpu().numpy())
             np.save(dir + '/att_A.npy', att_A[i].cpu().numpy())
-            np.save(dir + '/data.npy', data[i])
+            np.save(dir + '/data.npy', data[i//2])
 
         map = gen_map(att_node[i], dir, color_map)
         A_list = gen_graph(att_A[i, :, :, :].cpu().numpy(), num_att_A, num_edge, num_node, small_node_list, node_coordinate_list, adjacency_matrix, dir)
