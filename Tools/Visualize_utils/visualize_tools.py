@@ -35,11 +35,9 @@ def visualizing(att_node,
         dir = vis_dir + '/Label' + str(label[i//2]) + '_Pred' + str(predict[i//2]) + '_Name_' + str(name[i//2])
         if not os.path.isdir(dir):
             os.makedirs(dir)
-            # '''
-            np.save(dir + '/att_node.npy', att_node[i])
-            np.save(dir + '/att_A.npy', att_A[i])
+            np.save(dir + '/att_node.npy', att_node[i].cpu().numpy())
+            np.save(dir + '/att_A.npy', att_A[i].cpu().numpy())
             np.save(dir + '/data.npy', data[i])
-            # '''
 
         map = gen_map(att_node[i], dir, color_map)
         A_list = gen_graph(att_A[i, :, :, :].cpu().numpy(), num_att_A, num_edge, num_node, small_node_list, node_coordinate_list, adjacency_matrix, dir)
