@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="c3399162-fbe5-471e-8e70-a60f93b5c20a" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/Tools/Visualize_utils/visualize_tools.py" beforeDir="false" afterPath="$PROJECT_DIR$/Tools/Visualize_utils/visualize_tools.py" afterDir="false" />
-    </list>
+    <list default="true" id="c3399162-fbe5-471e-8e70-a60f93b5c20a" name="Default Changelist" comment="" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

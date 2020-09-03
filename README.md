@@ -2,30 +2,30 @@
 - pytorch  1.0.1
 
 
-# データセットの準備
+# Data Preparing
 
-## ダウンロード  
+## download
 - [NTU-RGB+D60](http://rose1.ntu.edu.sg/datasets/actionrecognition.asp)    
-3D skeletons (body joints)のみ必要  
-データセットを使う場合は申請が必要ですが,　skeleton dataのみは[Github](https://github.com/shahroudy/NTURGB-D)で公開中. 
+Only the 3D skeleton (body joints) is required.   
+If you want to use the dataset, you need to apply for it, but only the skeleton data is available on [Github](https://github.com/shahroudy/NTURGB-D).   
 
 - [NTU-RGB+D120](http://rose1.ntu.edu.sg/datasets/actionrecognition.asp)   
-3D skeletons (body joints)のみ必要  
-NTU-RGB+Dと同様にskeleton dataのみは[Github](https://github.com/shahroudy/NTURGB-D)から入手可能  
-    - NTU-RGB+D120は, NTU-RGB+D60と合わせる事で完全なデータセットになります. NTU-RGB+D60の中身をNTU-RGB+D120のディレクトリ内にコピーしておいてください. 
+Only the 3D skeleton (body joints) is required.  
+Only skeleton data is available from [Github](https://github.com/shahroudy/NTURGB-D)
+    - The NTU-RGB+D120 can be combined with the NTU-RGB+D60 to form a complete dataset. Copy the NTU-RGB+D60 data into the NTU-RGB+D120 directory.  
     ```
     find ntu-rgb+d-skeletons60/ -name "*.skeleton" -print0 | xargs -0 -I {} mv {} ntu-rgb+d-skeletons120/
     ```
 
-## train, testに分割 
-各プログラムには変数`origin_path`(ダウンロードしてきたデータのパス)があるので, 適宜変更  
+## train data, test data
+Each program has a variable `origin_path`(Path of downloaded data), so change it appropriately. 
 - NTU-RGB+D60  
 ```python Tools/Gen_dataset/ntu60.py```  
 
 - NTU-RGB+D120  
 ```python Tools/Gen_dataset/ntu120.py```  
 
-## マルチモーダルのデータを生成
+## Generate multi-modal data
 - NTU-RGB+D60  
 ```python Tools/Gen_dataset/multi_modal.py --dataset ntu60```  
 
@@ -34,68 +34,71 @@ NTU-RGB+Dと同様にskeleton dataのみは[Github](https://github.com/shahroudy
 
 
 
-# 学習
-- 学習やモデルの設定はconfigファイルに記述しています．  
-  `Tools/Config`下にデータセットごとにconfigファイルを置いてあります．  
-  configファイルを編集することで設定を変更できます.
+# Train
+- Training and model settings are described in the config file.  
+  The config files for each dataset are located in `Tools/Config/`.  
+  You can change the configuration by editing the config file.
 
-- configファイルを読み込んで学習を行います．
-    - NTU-RGB+D60のxsubのcoordinate(joint coordinate, bone)データで学習
+- Load the config file and train the model.
+    - Cross subject : Train the model with NTU-RGB+D60 coordinate (joint coordinate, bone) data. 
     ```
     python train.py --config Tools/Config/NTU-RGB+D60/xsub/coordinate.yaml
     ```
     
-    - NTU-RGB+D60のxsubのveloicyt(joint velocity, bone velocity)データで学習
+    - Cross subject : Train the model with NTU-RGB+D60 velocity (joint velocity, bone velocity) data.
     ```
     python train.py --config Tools/Config/NTU-RGB+D60/xsub/velocity.yaml
     ```
     
-    - NTU-RGB+D60のxsubのacceleration(joint acceleration, bone acceleration)データで学習
+    - Cross subjcet : Train the model with NTU-RGB+D60 acceleration (joint acceleration, bone acceleration) data.
     ```
     python train.py --config Tools/Config/NTU-RGB+D60/xsub/acceleration.yaml
     ```
-- 他のデータセットで学習する場合は違うconfigファイルを読み込みます.  
-    - 例:  
-        - NTU-RGB+D60のxviewのcoordinateデータ  
+    
+- If you want to train with another dataset, load a different config file.   
+    - Example:  
+        - Cross view : NTU-RGB+D60 coordinate (joint coordinate, bone) data.  
           `--config Tools/Config/NTU-RGB+D60/xview/coordinate.yaml`
-        - NTU-RGB+D120のxsetupのvelocityデータ  
+        - Cross setup : NTU-RGB+D120 velocity (joint velocity, bone velocity) data.  
           `--config Tools/Config/NTU-RGB+D120/xsetup/velocity.yaml`
        
           
-# 評価
-- 学習したモデルを用いて評価を行います. 学習と同様のconfigファイルを読み込みます.
-    - NTU-RGB+D60のxsubのcoordinate(joint coordinate, bone)データでテスト
+# Test
+- Test the trained model. Load the same config file as the training one.  
+
+    - Cross subject : Test the model with NTU-RGB+D60 coordinate (joint coordinate, bone) data.  
+
     ```
     python test.py --config Tools/Config/NTU-RGB+D60/xsub/coordinate.yaml
     ```
     
-    - NTU-RGB+D60のxsubのveloicyt(joint velocity, bone velocity)データでテスト
+    - Cross subject : Test the model with NTU-RGB+D60 velocity (joint velocity, bone velocity) data.  
     ```
     python test.py --config Tools/Config/NTU-RGB+D60/xsub/velocity.yaml
     ```
     
-    - NTU-RGB+D60のxsubのacceleration(joint acceleration, bone acceleration)データでテスト
+    - Cross subject : Test the model with NTU-RGB+D60 acceleration (joint acceleration, bone acceleration) data.  
     ```
     python test.py --config Tools/Config/NTU-RGB+D60/xsub/acceleration.yaml
     ```
 
-- Attention graphを描画する場合は`--visualize`をつけます.  
-  可視化結果の生成は時間がかかるため, 評価のみをしたい場合は`--visualize`をつけない事を薦めます.   
-    - 例:  
+- Add ``--visualize`` to plot an attention graph.   
+  Plotting Attention graphs can take a long time. If you only want to evaluate the results, it is recommended not to use the ``--visualize``.     
+    - Example:  
         ```
         python test.py --config Tools/Config/NTU-RGB+D60/xsub/coordinate.yaml --visualize
         ```
   
   
         
-# Mechanics-stream構造  
-- 評価をすることで各logディレクトリに`test_score.pkl`が生成されています.   
-  `test_score.pkl`を読み込んで，クラス確率の合計値を最終の推論値とさせます.    
+# Mechanics-stream structure
+- Evaluation generates a `test_score.pkl` in each log directory.    
+  Load the `test_score.pkl` and make the final inference value be the sum of the class probabilities.  
   ``` 
   python ensemble.py --dataset ntu60_xsub --score1 coordinate --score2 velocity --score3 acceleration
   ```
-    - `--dataset`:評価するデータセットを選択します. 以下から選択します.  
+    - `--dataset`:Select a dataset to evaluate. Select from the following.  
     ntu60_xsub, ntu60_xview, ntu120_xsub, ntu120_xsetup
-    - `--score1(2,3)`:`test_score.pkl`が保存されているディレクトリ名を与えます.   
-    2つのネットワークでのstream構造を評価したい場合は, 2つのディレクトリ名のみを与えます. 
+    - `--score1(2,3)`:Give the name of the directory where the `test_score.pkl` is stored.   
+    If you want to evaluate the stream structure on two networks, you give two directory names. 
   
